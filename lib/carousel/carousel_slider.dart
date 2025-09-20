@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'carousel_controller.dart';
+import 'carousel_controller.dart' hide CarouselController;
 import 'carousel_options.dart';
 import 'utils.dart';
 

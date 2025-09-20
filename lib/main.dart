@@ -1,14 +1,30 @@
+import 'dart:ui';
+
+import 'package:blogclub/article.dart';
+import 'package:blogclub/auth.dart';
 import 'package:blogclub/carousel/carousel_slider.dart';
 import 'package:blogclub/data.dart';
+import 'package:blogclub/gen/assets.gen.dart';
+import 'package:blogclub/gen/fonts.gen.dart';
+import 'package:blogclub/home.dart';
+import 'package:blogclub/onboarding.dart';
+import 'package:blogclub/profile.dart';
+import 'package:blogclub/splash.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //     statusBarColor: Colors.white,
+  //     statusBarIconBrightness: Brightness.dark,
+  //     systemNavigationBarColor: Colors.white,
+  //     systemNavigationBarIconBrightness: Brightness.dark));
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static const defaultFontFamily = 'Avenir';
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -16,178 +32,293 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const primaryTextColor = Color(0xff0D253C);
     const secondaryTextColor = Color(0xff2D4379);
+    const primaryColor = Color(0xff376AED);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        textButtonTheme: TextButtonThemeData(
+            style: ButtonStyle(
+                textStyle: MaterialStateProperty.all(const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: FontFamily.avenir,
+        )))),
+        colorScheme: const ColorScheme.light(
+            primary: primaryColor,
+            onPrimary: Colors.white,
+            onSurface: primaryTextColor,
+            background: Color(0xffFBFCFF),
+            surface: Colors.white,
+            onBackground: primaryTextColor),
+        appBarTheme: const AppBarTheme(
+          titleSpacing: 32,
+          backgroundColor: Colors.white,
+          foregroundColor: primaryTextColor,
+        ),
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: primaryColor,
+        ),
         textTheme: const TextTheme(
-            subtitle1: TextStyle(
-                fontFamily: defaultFontFamily,
+            titleMedium: TextStyle(
+                fontFamily: FontFamily.avenir,
                 color: secondaryTextColor,
                 fontWeight: FontWeight.w200,
                 fontSize: 18),
-            headline6: TextStyle(
-                fontFamily: defaultFontFamily,
+            titleLarge: TextStyle(
+                fontFamily: FontFamily.avenir,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: primaryTextColor),
-            headline4: TextStyle(
-                fontFamily: defaultFontFamily,
+            headlineMedium: TextStyle(
+                fontFamily: FontFamily.avenir,
                 fontWeight: FontWeight.w700,
                 fontSize: 24,
                 color: primaryTextColor),
-            bodyText2: TextStyle(
-                fontFamily: defaultFontFamily,
+            headlineSmall: TextStyle(
+                fontFamily: FontFamily.avenir,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: primaryTextColor),
+            bodySmall: TextStyle(
+                fontFamily: FontFamily.avenir,
+                fontWeight: FontWeight.w700,
+                color: Color(0xff7B8BB2),
+                fontSize: 10),
+            titleSmall: TextStyle(
+                fontFamily: FontFamily.avenir,
+                color: primaryTextColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 14),
+            bodyLarge: TextStyle(
+                fontFamily: FontFamily.avenir,
+                color: primaryTextColor,
+                fontSize: 14),
+            bodyMedium: TextStyle(
+                fontFamily: FontFamily.avenir,
                 color: secondaryTextColor,
                 fontSize: 12)),
       ),
-      home: const HomeScreen(),
+      // home: Stack(
+      //   children: [
+      //     const Positioned.fill(bottom: 65, child: HomeScreen()),
+      //     Positioned(bottom: 0, right: 0, left: 0, child: _BottomNavigation())
+      //   ],
+      // ),
+      home: const SplashScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+const int homeIndex = 0;
+const int articleIndex = 1;
+const int searchIndex = 2;
+const int menuIndex = 3;
+const double bottomNavigationHeight = 65;
+
+class _MainScreenState extends State<MainScreen> {
+  int selectedScreenIndex = homeIndex;
+  final List<int> _history = [];
+
+  GlobalKey<NavigatorState> _homeKey = GlobalKey();
+  GlobalKey<NavigatorState> _articleKey = GlobalKey();
+  GlobalKey<NavigatorState> _searchKey = GlobalKey();
+  GlobalKey<NavigatorState> _menuKey = GlobalKey();
+
+  late final map = {
+    homeIndex: _homeKey,
+    articleIndex: _articleKey,
+    searchIndex: _searchKey,
+    menuIndex: _menuKey,
+  };
+
+  Future<bool> _onWillPop() async {
+    final NavigatorState currentSelectedTabNavigatorState =
+        map[selectedScreenIndex]!.currentState!;
+    if (currentSelectedTabNavigatorState.canPop()) {
+      currentSelectedTabNavigatorState.pop();
+      return false;
+    } else if (_history.isNotEmpty) {
+      setState(() {
+        selectedScreenIndex = _history.last;
+        _history.removeLast();
+      });
+      return false;
+    }
+
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    final stories = AppDatabase.stories;
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Hi, Jonathan!',
-                      style: themeData.textTheme.subtitle1,
-                    ),
-                    Image.asset(
-                      'assets/img/icons/notification.png',
-                      width: 32,
-                      height: 32,
-                    ),
-                  ],
-                ),
+    // ignore: deprecated_member_use
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              bottom: bottomNavigationHeight,
+              child: IndexedStack(
+                index: selectedScreenIndex,
+                children: [
+                  _navigator(_homeKey, homeIndex, const HomeScreen()),
+                  _navigator(_articleKey, articleIndex, const ArticleScreeen()),
+                  _navigator(_searchKey, searchIndex, const SimpleScreen(tabName: 'Search',)),
+                  _navigator(_menuKey, menuIndex, const ProfileScreen()),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(32, 0, 0, 16),
-                child: Text(
-                  'Explore today’s',
-                  style: themeData.textTheme.headline4,
-                ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: _BottomNavigation(
+                selectedIndex: selectedScreenIndex,
+                onTap: (int index) {
+                  setState(() {
+                    _history.remove(selectedScreenIndex);
+                    _history.add(selectedScreenIndex);
+                    selectedScreenIndex = index;
+                  });
+                },
               ),
-              _StoryList(stories: stories),
-              const SizedBox(
-                height: 16,
-              ),
-              const _CategoryList(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
 
-class _CategoryList extends StatelessWidget {
-  const _CategoryList({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final categories = AppDatabase.categories;
-    return CarouselSlider.builder(
-        itemCount: categories.length,
-        itemBuilder: (context, index, realIndex) {
-          return _CategoryItem(
-            left: realIndex == 0 ? 32 : 8,
-            right: realIndex == categories.length - 1 ? 32 : 8,
-            category: categories[realIndex],
-          );
-        },
-        options: CarouselOptions(
-            scrollDirection: Axis.horizontal,
-            viewportFraction: 0.8,
-            aspectRatio: 1.2,
-            initialPage: 0,
-            scrollPhysics: const BouncingScrollPhysics(),
-            disableCenter: true,
-            enableInfiniteScroll: false,
-            enlargeCenterPage: true,
-            enlargeStrategy: CenterPageEnlargeStrategy.height));
+  Widget _navigator(GlobalKey key, int index, Widget child) {
+    return key.currentState == null && selectedScreenIndex != index
+        ? Container()
+        : Navigator(
+            key: key,
+            onGenerateRoute: (settings) => MaterialPageRoute(
+                builder: (context) => Offstage(
+                    offstage: selectedScreenIndex != index, child: child)));
   }
 }
 
-class _CategoryItem extends StatelessWidget {
-  final Category category;
-  final double left;
-  final double right;
-  const _CategoryItem({
-    Key? key,
-    required this.category,
-    required this.left,
-    required this.right,
-  }) : super(key: key);
+class SimpleScreen extends StatelessWidget {
+  const SimpleScreen({Key? key, required this.tabName, this.screenNumber = 1})
+      : super(key: key);
+  final String tabName;
+  final int screenNumber;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(left, 0, right, 0),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Tab: $tabName, Screen #$screenNumber',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SimpleScreen(
+                          tabName: tabName,
+                          screenNumber: screenNumber+1,
+                        )));
+              },
+              child: Text('Click Me')),
+        ],
+      ),
+    );
+  }
+}
+
+class _BottomNavigation extends StatelessWidget {
+  final Function(int index) onTap;
+  final int selectedIndex;
+
+  const _BottomNavigation(
+      {Key? key, required this.onTap, required this.selectedIndex})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 85,
       child: Stack(
         children: [
-          Positioned.fill(
-              top: 100,
-              right: 65,
-              left: 65,
-              bottom: 24,
-              child: Container(
-                decoration: const BoxDecoration(boxShadow: [
-                  BoxShadow(blurRadius: 20, color: Color(0xaa0D253C)),
-                ]),
-              )),
-          Positioned.fill(
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
             child: Container(
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(32),
-                child: Image.asset(
-                  'assets/img/posts/large/${category.imageFileName}',
-                  fit: BoxFit.cover,
+              height: 65,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  blurRadius: 20,
+                  color: const Color(0xff9b8487).withOpacity(0.3),
                 ),
-              ),
-              foregroundDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
-                gradient: const LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.center,
-                    colors: [
-                      Color(0xff0D253C),
-                      Colors.transparent,
-                    ]),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(32),
+              ]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  BottomNavigationItem(
+                      iconFileName: 'Home.png',
+                      activeIconFileName: 'HomeActive.png',
+                      onTap: () {
+                        onTap(homeIndex);
+                      },
+                      isActive: selectedIndex == homeIndex,
+                      title: 'Home'),
+                  BottomNavigationItem(
+                      iconFileName: 'Articles.png',
+                      activeIconFileName: 'ArticlesActive.png',
+                      onTap: () {
+                        onTap(articleIndex);
+                      },
+                      isActive: selectedIndex == articleIndex,
+                      title: 'Article'),
+                  Expanded(
+                    child: Container(),
+                  ),
+                  BottomNavigationItem(
+                      iconFileName: 'Search.png',
+                      activeIconFileName: 'SearchActive.png',
+                      onTap: () {
+                        onTap(searchIndex);
+                      },
+                      isActive: selectedIndex == searchIndex,
+                      title: 'Search'),
+                  BottomNavigationItem(
+                      iconFileName: 'Menu.png',
+                      activeIconFileName: 'MenuActive.png',
+                      onTap: () {
+                        onTap(menuIndex);
+                      },
+                      isActive: selectedIndex == menuIndex,
+                      title: 'Menu'),
+                ],
               ),
             ),
           ),
-          Positioned(
-            bottom: 48,
-            left: 32,
-            child: Text(
-              category.title,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .apply(color: Colors.white),
+          Center(
+            child: Container(
+              width: 65,
+              height: 85,
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: bottomNavigationHeight,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32.5),
+                    color: const Color(0xff376AED),
+                    border: Border.all(color: Colors.white, width: 4)),
+                child: Image.asset('assets/img/icons/plus.png'),
+              ),
             ),
           )
         ],
@@ -196,122 +327,49 @@ class _CategoryItem extends StatelessWidget {
   }
 }
 
-class _StoryList extends StatelessWidget {
-  const _StoryList({
-    Key? key,
-    required this.stories,
-  }) : super(key: key);
+class BottomNavigationItem extends StatelessWidget {
+  final String iconFileName;
+  final String activeIconFileName;
+  final String title;
+  final bool isActive;
+  final Function() onTap;
 
-  final List<StoryData> stories;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: 100,
-      child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: stories.length,
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
-          itemBuilder: (context, index) {
-            final story = stories[index];
-
-            return _Story(story: story);
-          }),
-    );
-  }
-}
-
-class _Story extends StatelessWidget {
-  const _Story({
-    Key? key,
-    required this.story,
-  }) : super(key: key);
-
-  final StoryData story;
+  const BottomNavigationItem(
+      {Key? key,
+      required this.iconFileName,
+      required this.activeIconFileName,
+      required this.title,
+      required this.onTap,
+      required this.isActive})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(4, 2, 4, 0),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              story.isViewed ? _profileImageViewed() : _profileImageNormal(),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Image.asset(
-                  'assets/img/icons/${story.iconFileName}',
-                  width: 24,
-                  height: 24,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Text(story.name),
-        ],
-      ),
-    );
-  }
-
-  Container _profileImageNormal() {
-    return Container(
-      width: 68,
-      height: 68,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(begin: Alignment.topLeft, colors: [
-          Color(0xff376AED),
-          Color(0xff49B0E2),
-          Color(0xff9CECFB),
-        ]),
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(2),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(22),
-        ),
-        padding: const EdgeInsets.all(5),
-        child: _profileImage(),
-      ),
-    );
-  }
-
-  Widget _profileImageViewed() {
-    return SizedBox(
-      width: 68,
-      height: 68,
-      child: DottedBorder(
-        borderType: BorderType.RRect,
-        strokeWidth: 2,
-        radius: const Radius.circular(24),
-        color: const Color(0xff7B8BB2),
-        dashPattern: const [
-          8,
-          3,
-        ],
-        padding: const EdgeInsets.all(7),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: _profileImage(),
+    final ThemeData themeData = Theme.of(context);
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/img/icons/${isActive ? activeIconFileName : iconFileName}',
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              title,
+              style: themeData.textTheme.bodySmall!.apply(
+                  color: isActive
+                      ? themeData.colorScheme.primary
+                      : themeData.textTheme.bodySmall!.color),
+            )
+          ],
         ),
       ),
-    );
-  }
-
-  Widget _profileImage() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(17),
-      child: Image.asset('assets/img/stories/${story.imageFileName}'),
     );
   }
 }
