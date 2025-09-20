@@ -246,9 +246,9 @@ class _SignUp extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-             Navigator.pushReplacement(
+            Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MainScreen()),
+              MaterialPageRoute(builder: (context) => const MainScreen()),
             );
           },
           style: ButtonStyle(

@@ -1,16 +1,24 @@
-# blogclub
+# Blog Club | بلاگ کلاب
 
-A new Flutter project.
+Blog Club is a social network-style mobile application built with Flutter.  
+بلاگ کلاب یک اپلیکیشن شبکه اجتماعی است که با Flutter ساخته شده است.  
+It allows users to read and write articles, manage their profiles, and interact with other users.  
+این برنامه به کاربران اجازه می‌دهد مقالات را بخوانند و بنویسند، پروفایل خود را مدیریت کنند و با دیگر کاربران تعامل داشته باشند.
 
-## Getting Started
+## Screens / Pages | صفحات برنامه
+The app includes the following main pages:  
+برنامه شامل صفحات اصلی زیر است:
 
-This project is a starting point for a Flutter application.
+- **Splash / اسپلش** – Welcome screen when the app launches / صفحه خوش‌آمدگویی هنگام باز شدن برنامه  
+- **Login / ورود** – User authentication / صفحه ورود کاربران  
+- **Signup / ثبت‌نام** – User registration / صفحه ثبت‌نام کاربران  
+- **Home / خانه** – Main feed of articles / فید اصلی مقالات  
+- **Profile / پروفایل** – User profile page / صفحه پروفایل کاربر  
+- **Article / مقاله** – Detailed view of a single article / نمایش جزئیات یک مقاله  
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features | ویژگی‌ها
+- User authentication (Login / Signup) / ورود و ثبت‌نام کاربران  
+- View, create, and interact with articles / مشاهده، ایجاد و تعامل با مقالات  
+- Profile management / مدیریت پروفایل  
+- Smooth navigation between screens / ناوبری روان بین صفحات  
+- Built with Flutter for cross-platform support / ساخته شده با Flutter برای پشتیبانی از پلتفرم‌های مختلف  

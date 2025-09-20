@@ -103,7 +103,7 @@ class CarouselSliderState extends State<CarouselSlider>
   void initState() {
     super.initState();
     carouselState =
-        CarouselState(this.options, clearTimer, resumeTimer, this.changeMode);
+        CarouselState(options, clearTimer, resumeTimer, changeMode);
 
     carouselState!.itemCount = widget.itemCount;
     carouselController.state = carouselState;
@@ -179,7 +179,7 @@ class CarouselSliderState extends State<CarouselSlider>
   Widget getGestureWrapper(Widget child) {
     Widget wrapper;
     if (widget.options.height != null) {
-      wrapper = Container(height: widget.options.height, child: child);
+      wrapper = SizedBox(height: widget.options.height, child: child);
     } else {
       wrapper =
           AspectRatio(aspectRatio: widget.options.aspectRatio, child: child);
@@ -235,7 +235,7 @@ class CarouselSliderState extends State<CarouselSlider>
     }
     return Transform.scale(
         scale: scale!,
-        child: Container(child: child, width: width, height: height));
+        child: SizedBox(child: child, width: width, height: height));
   }
 
   void onStart() {

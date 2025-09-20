@@ -129,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalKey<NavigatorState> _homeKey = GlobalKey();
   GlobalKey<NavigatorState> _articleKey = GlobalKey();
-  GlobalKey<NavigatorState> _searchKey = GlobalKey();
+  GlobalKey<NavigatorState>  _searchKey = GlobalKey();
   GlobalKey<NavigatorState> _menuKey = GlobalKey();
 
   late final map = {
@@ -232,7 +232,7 @@ class SimpleScreen extends StatelessWidget {
                           screenNumber: screenNumber+1,
                         )));
               },
-              child: Text('Click Me')),
+              child: const Text('Click Me')),
         ],
       ),
     );
