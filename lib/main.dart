@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:blogclub/article.dart';
 import 'package:blogclub/auth.dart';
 import 'package:blogclub/carousel/carousel_slider.dart';
@@ -16,11 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-  //     statusBarColor: Colors.white,
-  //     statusBarIconBrightness: Brightness.dark,
-  //     systemNavigationBarColor: Colors.white,
-  //     systemNavigationBarIconBrightness: Brightness.dark));
   runApp(const MyApp());
 }
 
@@ -99,12 +93,6 @@ class MyApp extends StatelessWidget {
                 color: secondaryTextColor,
                 fontSize: 12)),
       ),
-      // home: Stack(
-      //   children: [
-      //     const Positioned.fill(bottom: 65, child: HomeScreen()),
-      //     Positioned(bottom: 0, right: 0, left: 0, child: _BottomNavigation())
-      //   ],
-      // ),
       home: const SplashScreen(),
     );
   }
@@ -129,7 +117,7 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalKey<NavigatorState> _homeKey = GlobalKey();
   GlobalKey<NavigatorState> _articleKey = GlobalKey();
-  GlobalKey<NavigatorState>  _searchKey = GlobalKey();
+  GlobalKey<NavigatorState> _searchKey = GlobalKey();
   GlobalKey<NavigatorState> _menuKey = GlobalKey();
 
   late final map = {
@@ -171,7 +159,12 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   _navigator(_homeKey, homeIndex, const HomeScreen()),
                   _navigator(_articleKey, articleIndex, const ArticleScreeen()),
-                  _navigator(_searchKey, searchIndex, const SimpleScreen(tabName: 'Search',)),
+                  _navigator(
+                      _searchKey,
+                      searchIndex,
+                      const SimpleScreen(
+                        tabName: 'Search',
+                      )),
                   _navigator(_menuKey, menuIndex, const ProfileScreen()),
                 ],
               ),
@@ -229,7 +222,7 @@ class SimpleScreen extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => SimpleScreen(
                           tabName: tabName,
-                          screenNumber: screenNumber+1,
+                          screenNumber: screenNumber + 1,
                         )));
               },
               child: const Text('Click Me')),

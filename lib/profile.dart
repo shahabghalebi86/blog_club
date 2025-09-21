@@ -253,17 +253,17 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
-                            icon: 
-                            // Assets.img.icons.grid.svg(),
-                            SvgPicture.asset('assets/img/icons/grid.svg')
-                          ),
+                              onPressed: () {},
+                              icon:
+                                  // Assets.img.icons.grid.svg(),
+                                  SvgPicture.asset(
+                                      'assets/img/icons/grid.svg')),
                           IconButton(
-                            onPressed: () {},
-                            icon:
-                              SvgPicture.asset('assets/img/icons/table.svg')
-                            //  Assets.img.icons.table.svg(),
-                          ),
+                              onPressed: () {},
+                              icon:
+                                  SvgPicture.asset('assets/img/icons/table.svg')
+                              //  Assets.img.icons.table.svg(),
+                              ),
                         ],
                       ),
                     ),

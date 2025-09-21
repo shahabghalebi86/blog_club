@@ -143,7 +143,6 @@ class AppDatabase {
     ];
   }
 
-  
   static List<OnBoardingItem> get onBoardingItems {
     List<OnBoardingItem> items = [];
     for (var i = 0; i < 4; i++) {
@@ -153,7 +152,6 @@ class AppDatabase {
     return items;
   }
 }
-
 
 class OnBoardingItem {
   final String title;

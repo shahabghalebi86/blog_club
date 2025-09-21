@@ -1,6 +1,5 @@
 import 'package:blogclub/gen/assets.gen.dart';
 import 'package:blogclub/gen/fonts.gen.dart';
-import 'package:blogclub/home.dart';
 import 'package:blogclub/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 'assets/img/icons/logo.svg',
                 width: 120,
               ),
-              // Assets.img.icons.logo.svg(width: 120),
             ),
             Expanded(
               child: Container(

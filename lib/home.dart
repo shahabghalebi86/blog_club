@@ -1,4 +1,3 @@
-// import 'package:blogclub/carousel/carousel_slider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:blogclub/data.dart';
 import 'package:blogclub/gen/assets.gen.dart';
@@ -7,8 +6,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,7 +31,6 @@ class HomeScreen extends StatelessWidget {
                       style: themeData.textTheme.titleMedium,
                     ),
                     Assets.img.icons.notification.image(width: 32, height: 32),
-                  
                   ],
                 ),
               ),
@@ -70,7 +66,7 @@ class _CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categories = AppDatabase.categories;
-    
+
     return CarouselSlider.builder(
         itemCount: categories.length,
         itemBuilder: (context, index, realIndex) {
@@ -296,7 +292,8 @@ class PostList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Latest News', style: Theme.of(context).textTheme.headlineSmall),
+              Text('Latest News',
+                  style: Theme.of(context).textTheme.headlineSmall),
               TextButton(
                 onPressed: () {},
                 child: const Text(
@@ -349,8 +346,10 @@ class Post extends StatelessWidget {
         children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child:
-                  Image.asset('assets/img/posts/small/${post.imageFileName}',width: 120,)),
+              child: Image.asset(
+                'assets/img/posts/small/${post.imageFileName}',
+                width: 120,
+              )),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
@@ -404,8 +403,10 @@ class Post extends StatelessWidget {
                                   ? CupertinoIcons.bookmark_fill
                                   : CupertinoIcons.bookmark,
                               size: 16,
-                              color:
-                                  Theme.of(context).textTheme.bodyMedium!.color),
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .color),
                         ),
                       )
                     ],
@@ -419,4 +420,3 @@ class Post extends StatelessWidget {
     );
   }
 }
-      

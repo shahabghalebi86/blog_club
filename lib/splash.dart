@@ -36,9 +36,6 @@ class _SplashScreenState extends State<SplashScreen> {
               'assets/img/icons/logo.svg',
               width: 100,
             ),
-
-            // child: Assets.img.icons.logo.svg(width: 100),
-            // child: Assets.img.icons.logo.svg(),
           )
         ],
       ),
