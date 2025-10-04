@@ -20,7 +20,7 @@ The app includes the following main pages:
 - User authentication (Login / Signup) / ورود و ثبت‌نام کاربران  
 - View, create, and interact with articles / مشاهده، ایجاد و تعامل با مقالات  
 - Profile management / مدیریت پروفایل  
-- Smooth navigation between screens / ناوبری روان بین صفحات  
+- Smooth navigation between screens / جابجایی روان بین صفحات  
 - Built with Flutter for cross-platform support / ساخته شده با Flutter برای پشتیبانی از پلتفرم‌های مختلف  
 
 
