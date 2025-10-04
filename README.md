@@ -22,3 +22,38 @@ The app includes the following main pages:
 - Profile management / مدیریت پروفایل  
 - Smooth navigation between screens / ناوبری روان بین صفحات  
 - Built with Flutter for cross-platform support / ساخته شده با Flutter برای پشتیبانی از پلتفرم‌های مختلف  
+
+
+## Screenshots / تصاویر برنامه
+
+<p align="center">
+  <strong>Splash Screen</strong><br/>
+  <img src="assets/img/screenshots/splash.png" alt="Splash Screen" width="200"/>
+</p>
+
+<p align="center">
+  <strong>Home Screen</strong><br/>
+  <img src="assets/img/screenshots/home.png" alt="Home Screen" width="200"/>
+</p>
+
+<p align="center">
+  <strong>Profile Screen</strong><br/>
+  <img src="assets/img/screenshots/profile.png" alt="Profile Screen" width="200"/>
+</p>
+
+<p align="center">
+  <strong>Article Screen</strong><br/>
+  <img src="assets/img/screenshots/article.png" alt="article Screen" width="200"/>
+</p>
+
+<p align="center">
+  <strong>Onboarding Screen</strong><br/>
+  <img src="assets/img/screenshots/onboarding.png" alt="onboarding Screen" width="200"/>
+</p>
+
+<p align="center">
+  <strong>Auth Screen</strong><br/>
+  <img src="assets/img/screenshots/auth1.png" alt="auth1 Screen" width="200"/>
+  <img src="assets/img/screenshots/auth2.png" alt="auth2 Screen" width="200"/>
+</p>
+
